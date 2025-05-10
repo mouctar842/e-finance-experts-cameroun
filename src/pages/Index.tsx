@@ -5,13 +5,14 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { REGIONS_CAMEROON, SPECIALIZATIONS } from "@/types";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { ArrowRight, ChevronRight, Search, Star, User } from "lucide-react";
+import { ArrowRight, ChevronRight, Search, Star, User, Zap } from "lucide-react";
 
 const Index = () => {
   const isMobile = useIsMobile();
   const [selectedRegion, setSelectedRegion] = useState<string>("");
   const [selectedSpecialization, setSelectedSpecialization] = useState<string>("");
   const [isHeroVisible, setIsHeroVisible] = useState(true);
+  const [animateBackground, setAnimateBackground] = useState(false);
 
   // Animation variants for staggered animations
   const containerVariants = {
@@ -30,10 +31,10 @@ const Index = () => {
     show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 20 } }
   };
 
-  // Particles for background effect
+  // Dynamic particles for background effect
   const Particles = () => (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(15)].map((_, i) => (
+      {[...Array(20)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute w-1 h-1 md:w-2 md:h-2 bg-white rounded-full opacity-60"
@@ -59,22 +60,76 @@ const Index = () => {
     </div>
   );
 
+  // Hexagon grid background
+  const HexGrid = () => (
+    <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4NCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDg0IDQ4Ij48cGF0aCBkPSJNMCAwaDg0djQ4SDBWMHptNDIgNDhhMjQgMjQgMCAxIDAgMC00OCAyNCAyNCAwIDAgMCAwIDQ4eiIgb3BhY2l0eT0iLjE1IiBmaWxsPSIjOWI4N2Y1IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] bg-center" />
+    </div>
+  );
+
+  // Digital data streams background
+  const DataStreams = () => (
+    <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
+      {[...Array(10)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-[2px] h-full bg-gradient-to-b from-transparent via-[#1EAEDB] to-transparent"
+          style={{
+            left: `${Math.random() * 100}%`,
+          }}
+          initial={{ y: '-100%' }}
+          animate={{ y: '200%' }}
+          transition={{
+            duration: Math.random() * 10 + 15,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+      ))}
+    </div>
+  );
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsHeroVisible(true);
     }, 500);
-    return () => clearTimeout(timer);
+
+    // Start background animation after page load
+    const bgTimer = setTimeout(() => {
+      setAnimateBackground(true);
+    }, 1000);
+    
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(bgTimer);
+    };
   }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Hero Section with animated gradient */}
+      {/* Hero Section with enhanced animated gradient */}
       <div className="relative min-h-screen flex items-center bg-gradient-to-br from-[#0A192F] via-[#162A45] to-[#0B2135] overflow-hidden">
         <Particles />
+        <HexGrid />
+        <DataStreams />
         
-        {/* Glowing orbs in background */}
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-[#9b87f5]/10 blur-3xl" />
-        <div className="absolute bottom-1/3 left-1/4 w-96 h-96 rounded-full bg-[#1EAEDB]/10 blur-3xl" />
+        {/* Animated gradient orbs in background */}
+        <motion.div 
+          className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-[#9b87f5]/10 blur-3xl" 
+          animate={{
+            scale: animateBackground ? [1, 1.2, 1] : 1,
+            opacity: animateBackground ? [0.1, 0.2, 0.1] : 0.1
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className="absolute bottom-1/3 left-1/4 w-96 h-96 rounded-full bg-[#1EAEDB]/10 blur-3xl" 
+          animate={{
+            scale: animateBackground ? [1, 1.3, 1] : 1,
+            opacity: animateBackground ? [0.1, 0.15, 0.1] : 0.1
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
         
         <AnimatePresence>
           {isHeroVisible && (
@@ -85,8 +140,20 @@ const Index = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8 }}
               >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 1 }}
+                  className="mb-6 inline-block"
+                >
+                  <div className="text-center flex items-center justify-center space-x-2 mb-2">
+                    <Zap className="text-[#9b87f5] w-8 h-8" />
+                    <span className="text-2xl font-bold text-white">e-Finance</span>
+                  </div>
+                </motion.div>
+
                 <motion.h1 
-                  className="text-4xl md:text-6xl font-bold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#9b87f5] to-[#1EAEDB]"
+                  className="text-4xl md:text-6xl font-bold text-white mb-6 cyber-glow"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
@@ -103,14 +170,14 @@ const Index = () => {
                 </motion.p>
                 
                 <motion.div
-                  className="p-6 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 shadow-lg"
+                  className="p-6 holographic rounded-xl neo-border shadow-lg"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.5 }}
                 >
                   <h2 className="text-white text-xl mb-4 font-medium">Rechercher un expert</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
+                    <div className="relative">
                       <select 
                         value={selectedRegion} 
                         onChange={(e) => setSelectedRegion(e.target.value)}
@@ -123,8 +190,11 @@ const Index = () => {
                           </option>
                         ))}
                       </select>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#9b87f5]">
+                        <ChevronRight size={16} />
+                      </div>
                     </div>
-                    <div>
+                    <div className="relative">
                       <select 
                         value={selectedSpecialization} 
                         onChange={(e) => setSelectedSpecialization(e.target.value)}
@@ -137,6 +207,9 @@ const Index = () => {
                           </option>
                         ))}
                       </select>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#1EAEDB]">
+                        <ChevronRight size={16} />
+                      </div>
                     </div>
                   </div>
                   <Link 
@@ -146,18 +219,19 @@ const Index = () => {
                         : "/search"
                     }
                   >
-                    <Button className="w-full bg-gradient-to-r from-[#9b87f5] to-[#1EAEDB] hover:opacity-90 text-white border-none transition-all duration-300 transform hover:scale-[1.02]">
+                    <Button className="w-full bg-gradient-to-r from-[#9b87f5] to-[#1EAEDB] hover:opacity-90 text-white border-none transition-all duration-300 transform hover:scale-[1.02] glow">
                       Rechercher <ArrowRight className="ml-2" />
                     </Button>
                   </Link>
                 </motion.div>
 
-                {/* Floating hint card */}
+                {/* Enhanced floating hint card */}
                 <motion.div
-                  className="mt-8 inline-flex items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10"
+                  className="mt-8 inline-flex items-center holographic px-4 py-2 rounded-full border border-white/10 data-stream"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.2, duration: 0.6 }}
+                  whileHover={{ scale: 1.05 }}
                 >
                   <div className="mr-2 bg-[#9b87f5] rounded-full p-1">
                     <Search size={14} className="text-white" />
@@ -170,10 +244,10 @@ const Index = () => {
         </AnimatePresence>
 
         {/* Animated mesh gradient overlay for texture */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9InBhdHQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDQ1KSI+CiAgICAgIDxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzBBMTkyRiIgZmlsbC1vcGFjaXR5PSIwLjAzIi8+CiAgICA8L3BhdHRlcm4+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcGF0dCkiLz4KPC9zdmc+')]" style={{ opacity: 0.4 }} />
+        <div className="absolute inset-0 rotating-bg" style={{ opacity: 0.4 }} />
       </div>
 
-      {/* Features Section with animated cards */}
+      {/* Enhanced Features Section with animated cards */}
       <section className="py-20 bg-[#0F1729] relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9InBhdHQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDQ1KSI+CiAgICAgIDxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzlCODdGNSIgZmlsbC1vcGFjaXR5PSIwLjAyIi8+CiAgICA8L3BhdHRlcm4+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcGF0dCkiLz4KPC9zdmc+')]" style={{ opacity: 0.2 }} />
         
@@ -186,7 +260,7 @@ const Index = () => {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Comment fonctionne <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#9b87f5] to-[#1EAEDB]">e-Finance</span>
+              Comment fonctionne <span className="cyber-glow">e-Finance</span>
             </h2>
             <p className="text-lg text-white/70 max-w-3xl mx-auto">
               Notre plateforme vous aide à trouver rapidement des experts financiers qualifiés au Cameroun, adaptés à vos besoins spécifiques.
@@ -201,11 +275,11 @@ const Index = () => {
             viewport={{ once: true }}
           >
             <motion.div 
-              className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:border-[#9b87f5]/30 transition-all duration-500"
+              className="holographic p-8 rounded-2xl hover:border-[#9b87f5]/30 transition-all duration-500 floating"
               variants={itemVariants}
               whileHover={{ scale: 1.03, boxShadow: "0 20px 50px rgba(155, 135, 245, 0.1)" }}
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-lg">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-lg glow">
                 <Search size={24} />
               </div>
               <h3 className="text-xl font-semibold text-center mb-4 text-white">Sélectionnez votre région</h3>
@@ -213,11 +287,12 @@ const Index = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:border-[#1EAEDB]/30 transition-all duration-500"
+              className="holographic p-8 rounded-2xl hover:border-[#1EAEDB]/30 transition-all duration-500 floating"
               variants={itemVariants}
               whileHover={{ scale: 1.03, boxShadow: "0 20px 50px rgba(30, 174, 219, 0.1)" }}
+              style={{ animationDelay: "0.2s" }}
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-[#1EAEDB] to-[#33C3F0] text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-lg">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#1EAEDB] to-[#33C3F0] text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-lg glow">
                 <User size={24} />
               </div>
               <h3 className="text-xl font-semibold text-center mb-4 text-white">Choisissez une spécialisation</h3>
@@ -225,11 +300,12 @@ const Index = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:border-[#9b87f5]/30 transition-all duration-500"
+              className="holographic p-8 rounded-2xl hover:border-[#9b87f5]/30 transition-all duration-500 floating"
               variants={itemVariants}
               whileHover={{ scale: 1.03, boxShadow: "0 20px 50px rgba(155, 135, 245, 0.1)" }}
+              style={{ animationDelay: "0.4s" }}
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-[#9b87f5] to-[#1EAEDB] text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-lg">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#9b87f5] to-[#1EAEDB] text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-lg glow">
                 <Star size={24} />
               </div>
               <h3 className="text-xl font-semibold text-center mb-4 text-white">Contactez l'expert</h3>
@@ -239,7 +315,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA Section with animation */}
+      {/* Enhanced CTA Section with animation */}
       <section className="py-20 relative bg-gradient-to-br from-[#1A1F2C] to-[#0F1729] overflow-hidden">
         {/* Animated geometric shapes */}
         <motion.div 
@@ -261,6 +337,8 @@ const Index = () => {
           style={{ bottom: '10%', right: '15%' }}
         />
         
+        <DataStreams />
+        
         <div className="container mx-auto px-4 relative z-10">
           <motion.div 
             className="max-w-3xl mx-auto"
@@ -269,9 +347,9 @@ const Index = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <div className="bg-white/5 backdrop-blur-md p-10 rounded-3xl border border-white/10 text-center">
+            <div className="holographic p-10 rounded-3xl neo-border text-center">
               <motion.h2 
-                className="text-3xl font-bold mb-6 text-white"
+                className="text-3xl font-bold mb-6 text-white cyber-glow"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -295,7 +373,7 @@ const Index = () => {
                 transition={{ delay: 0.6, duration: 0.8 }}
               >
                 <Link to="/admin">
-                  <Button className="bg-gradient-to-r from-[#9b87f5] to-[#1EAEDB] hover:opacity-90 text-white text-lg px-8 py-6 h-auto shadow-xl shadow-[#9b87f5]/20 hover:shadow-[#9b87f5]/30 transition-all duration-300">
+                  <Button className="bg-gradient-to-r from-[#9b87f5] to-[#1EAEDB] hover:opacity-90 text-white text-lg px-8 py-6 h-auto shadow-xl glow">
                     S'inscrire comme expert
                     <ChevronRight className="ml-2" />
                   </Button>

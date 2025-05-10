@@ -32,7 +32,9 @@ export const ExpertProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     };
 
     addExpertToData(newExpert);
-    setExperts([...initialExperts]);
+    const updatedExperts = [...initialExperts]; // Get fresh data after modification
+    setExperts(updatedExperts);
+    
     toast({
       title: "Expert ajouté",
       description: `${expertData.firstName} ${expertData.lastName} a été ajouté avec succès.`,
@@ -42,7 +44,9 @@ export const ExpertProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   const deleteExpert = (id: string) => {
     deleteExpertFromData(id);
-    setExperts([...initialExperts]);
+    const updatedExperts = [...initialExperts]; // Get fresh data after modification
+    setExperts(updatedExperts);
+    
     toast({
       title: "Expert supprimé",
       description: "L'expert a été supprimé avec succès.",
@@ -60,7 +64,9 @@ export const ExpertProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   const addComment = (expertId: string, comment: Omit<Comment, "id" | "date">) => {
     addCommentToExpertInData(expertId, comment);
-    setExperts([...initialExperts]);
+    const updatedExperts = [...initialExperts]; // Get fresh data after modification
+    setExperts(updatedExperts);
+    
     toast({
       title: "Commentaire ajouté",
       description: "Votre commentaire a été ajouté avec succès.",

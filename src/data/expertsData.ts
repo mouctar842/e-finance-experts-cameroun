@@ -1,5 +1,5 @@
 
-import { Expert } from "../types";
+import { Expert, Comment } from "../types";
 
 // Initial mock data for experts
 export const experts: Expert[] = [
@@ -110,13 +110,13 @@ export const getExpertById = (id: string): Expert | undefined => {
 
 export const addCommentToExpert = (
   expertId: string,
-  comment: Omit<Comment, "id" | "date">
+  commentData: Omit<Comment, "id" | "date">
 ): void => {
   const expert = experts.find((e) => e.id === expertId);
   if (expert) {
-    const newComment = {
+    const newComment: Comment = {
       id: `c${Date.now()}`,
-      ...comment,
+      ...commentData,
       date: new Date().toISOString().split("T")[0]
     };
     
