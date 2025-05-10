@@ -1,7 +1,7 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
@@ -39,4 +39,37 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Futuristic gradient animations */
+.bg-gradient-animate {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Glowing effect */
+.glow {
+  box-shadow: 0 0 15px rgba(155, 135, 245, 0.5), 0 0 30px rgba(30, 174, 219, 0.3);
+  animation: pulse-glow 3s infinite alternate;
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 10px rgba(155, 135, 245, 0.5), 0 0 20px rgba(30, 174, 219, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(155, 135, 245, 0.7), 0 0 40px rgba(30, 174, 219, 0.5);
+  }
 }

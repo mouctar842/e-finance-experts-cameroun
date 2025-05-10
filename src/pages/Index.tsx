@@ -2,327 +2,307 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { REGIONS_CAMEROON, SPECIALIZATIONS } from "@/types";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronRight, Search, Star, User } from "lucide-react";
 
 const Index = () => {
   const isMobile = useIsMobile();
   const [selectedRegion, setSelectedRegion] = useState<string>("");
   const [selectedSpecialization, setSelectedSpecialization] = useState<string>("");
+  const [isHeroVisible, setIsHeroVisible] = useState(true);
+
+  // Animation variants for staggered animations
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 20 } }
+  };
+
+  // Particles for background effect
+  const Particles = () => (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(15)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 md:w-2 md:h-2 bg-white rounded-full opacity-60"
+          initial={{
+            x: `${Math.random() * 100}%`,
+            y: `${Math.random() * 100}%`,
+            scale: Math.random() * 1.5 + 0.5,
+            opacity: Math.random() * 0.6 + 0.2
+          }}
+          animate={{
+            x: `${Math.random() * 100}%`,
+            y: `${Math.random() * 100}%`,
+            scale: [Math.random() * 1 + 0.5, Math.random() * 2 + 1, Math.random() * 1 + 0.5],
+            opacity: [Math.random() * 0.3 + 0.2, Math.random() * 0.7 + 0.3, Math.random() * 0.3 + 0.2],
+          }}
+          transition={{
+            duration: Math.random() * 20 + 20,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+    </div>
+  );
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsHeroVisible(true);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Hero Section */}
-      <div className="relative min-h-screen flex items-center animated-gradient overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30"></div>
-        </div>
-        <div className="container mx-auto px-4 z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.h1 
-              className="text-4xl md:text-6xl font-bold text-white mb-6"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              Trouvez les Meilleurs Experts Financiers au Cameroun
-            </motion.h1>
-            <motion.p 
-              className="text-xl text-white/90 mb-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              e-Finance vous connecte avec les experts financiers qualifiés dans toutes les régions du Cameroun.
-            </motion.p>
-            
-            <motion.div
-              className="p-4 md:p-6 bg-white/10 backdrop-blur-md rounded-xl shadow-lg"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-            >
-              <h2 className="text-white text-xl mb-4">Rechercher un expert</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <select 
-                    value={selectedRegion} 
-                    onChange={(e) => setSelectedRegion(e.target.value)}
-                    className="w-full p-2 rounded border border-white/20 bg-white/10 text-white"
-                  >
-                    <option value="">Choisir une région</option>
-                    {REGIONS_CAMEROON.map((region) => (
-                      <option key={region} value={region} className="text-black">
-                        {region}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <select 
-                    value={selectedSpecialization} 
-                    onChange={(e) => setSelectedSpecialization(e.target.value)}
-                    className="w-full p-2 rounded border border-white/20 bg-white/10 text-white"
-                  >
-                    <option value="">Choisir une spécialisation</option>
-                    {SPECIALIZATIONS.map((spec) => (
-                      <option key={spec} value={spec} className="text-black">
-                        {spec}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <Link 
-                to={
-                  selectedRegion && selectedSpecialization 
-                    ? `/search?region=${selectedRegion}&specialization=${selectedSpecialization}` 
-                    : "/search"
-                }
+      {/* Hero Section with animated gradient */}
+      <div className="relative min-h-screen flex items-center bg-gradient-to-br from-[#0A192F] via-[#162A45] to-[#0B2135] overflow-hidden">
+        <Particles />
+        
+        {/* Glowing orbs in background */}
+        <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-[#9b87f5]/10 blur-3xl" />
+        <div className="absolute bottom-1/3 left-1/4 w-96 h-96 rounded-full bg-[#1EAEDB]/10 blur-3xl" />
+        
+        <AnimatePresence>
+          {isHeroVisible && (
+            <div className="container mx-auto px-4 z-10">
+              <motion.div 
+                className="max-w-3xl mx-auto text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8 }}
               >
-                <Button className="w-full bg-gradient-to-r from-efinance-blue to-efinance-green hover:opacity-90 text-white">
-                  Rechercher <ArrowRight size={16} className="ml-2" />
-                </Button>
-              </Link>
-            </motion.div>
-          </div>
-        </div>
+                <motion.h1 
+                  className="text-4xl md:text-6xl font-bold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#9b87f5] to-[#1EAEDB]"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                >
+                  Trouvez les Meilleurs Experts Financiers au Cameroun
+                </motion.h1>
+                <motion.p 
+                  className="text-xl text-white/90 mb-8"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                >
+                  e-Finance vous connecte avec les experts financiers qualifiés dans toutes les régions du Cameroun.
+                </motion.p>
+                
+                <motion.div
+                  className="p-6 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 shadow-lg"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                >
+                  <h2 className="text-white text-xl mb-4 font-medium">Rechercher un expert</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <select 
+                        value={selectedRegion} 
+                        onChange={(e) => setSelectedRegion(e.target.value)}
+                        className="w-full p-3 rounded-lg border border-white/20 bg-white/5 text-white focus:ring-2 focus:ring-[#9b87f5] transition-all duration-300 outline-none"
+                      >
+                        <option value="">Choisir une région</option>
+                        {REGIONS_CAMEROON.map((region) => (
+                          <option key={region} value={region} className="text-black">
+                            {region}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <select 
+                        value={selectedSpecialization} 
+                        onChange={(e) => setSelectedSpecialization(e.target.value)}
+                        className="w-full p-3 rounded-lg border border-white/20 bg-white/5 text-white focus:ring-2 focus:ring-[#1EAEDB] transition-all duration-300 outline-none"
+                      >
+                        <option value="">Choisir une spécialisation</option>
+                        {SPECIALIZATIONS.map((spec) => (
+                          <option key={spec} value={spec} className="text-black">
+                            {spec}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <Link 
+                    to={
+                      selectedRegion && selectedSpecialization 
+                        ? `/search?region=${selectedRegion}&specialization=${selectedSpecialization}` 
+                        : "/search"
+                    }
+                  >
+                    <Button className="w-full bg-gradient-to-r from-[#9b87f5] to-[#1EAEDB] hover:opacity-90 text-white border-none transition-all duration-300 transform hover:scale-[1.02]">
+                      Rechercher <ArrowRight className="ml-2" />
+                    </Button>
+                  </Link>
+                </motion.div>
 
-        {/* Floating elements for futuristic animation */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          {!isMobile && (
-            <>
-              <motion.div 
-                className="absolute w-16 h-16 rounded-full bg-white/10 backdrop-blur-sm"
-                initial={{ x: "10%", y: "20%" }}
-                animate={{ 
-                  x: ["10%", "15%", "10%"],
-                  y: ["20%", "25%", "20%"],
-                }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              />
-              <motion.div 
-                className="absolute w-24 h-24 rounded-full bg-white/5 backdrop-blur-sm"
-                initial={{ x: "80%", y: "40%" }}
-                animate={{ 
-                  x: ["80%", "75%", "80%"],
-                  y: ["40%", "45%", "40%"],
-                }}
-                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              />
-              <motion.div 
-                className="absolute w-32 h-32 rounded-full bg-white/5 backdrop-blur-sm"
-                initial={{ x: "30%", y: "70%" }}
-                animate={{ 
-                  x: ["30%", "35%", "30%"],
-                  y: ["70%", "65%", "70%"],
-                }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-              />
-            </>
+                {/* Floating hint card */}
+                <motion.div
+                  className="mt-8 inline-flex items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2, duration: 0.6 }}
+                >
+                  <div className="mr-2 bg-[#9b87f5] rounded-full p-1">
+                    <Search size={14} className="text-white" />
+                  </div>
+                  <span className="text-sm text-white/80">Plus de {SPECIALIZATIONS.length} spécialisations disponibles</span>
+                </motion.div>
+              </motion.div>
+            </div>
           )}
-        </div>
+        </AnimatePresence>
+
+        {/* Animated mesh gradient overlay for texture */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9InBhdHQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDQ1KSI+CiAgICAgIDxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzBBMTkyRiIgZmlsbC1vcGFjaXR5PSIwLjAzIi8+CiAgICA8L3BhdHRlcm4+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcGF0dCkiLz4KPC9zdmc+')]" style={{ opacity: 0.4 }} />
       </div>
 
-      {/* Features Section */}
-      <section className="py-16 bg-white">
+      {/* Features Section with animated cards */}
+      <section className="py-20 bg-[#0F1729] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9InBhdHQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDQ1KSI+CiAgICAgIDxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzlCODdGNSIgZmlsbC1vcGFjaXR5PSIwLjAyIi8+CiAgICA8L3BhdHRlcm4+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcGF0dCkiLz4KPC9zdmc+')]" style={{ opacity: 0.2 }} />
+        
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Comment fonctionne e-Finance</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Notre plateforme vous aide à trouver rapidement des experts financiers qualifiés au Cameroun, adaptés à vos besoins spécifiques.</p>
-          </div>
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Comment fonctionne <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#9b87f5] to-[#1EAEDB]">e-Finance</span>
+            </h2>
+            <p className="text-lg text-white/70 max-w-3xl mx-auto">
+              Notre plateforme vous aide à trouver rapidement des experts financiers qualifiés au Cameroun, adaptés à vos besoins spécifiques.
+            </p>
+          </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+          >
             <motion.div 
-              className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
-              whileHover={{ y: -5, boxShadow: "0 10px 40px rgba(0,0,0,0.1)" }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
+              className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:border-[#9b87f5]/30 transition-all duration-500"
+              variants={itemVariants}
+              whileHover={{ scale: 1.03, boxShadow: "0 20px 50px rgba(155, 135, 245, 0.1)" }}
             >
-              <div className="w-16 h-16 bg-gradient-to-r from-efinance-blue to-efinance-lightblue text-white flex items-center justify-center rounded-full mb-4 mx-auto">
-                1
+              <div className="w-16 h-16 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-lg">
+                <Search size={24} />
               </div>
-              <h3 className="text-xl font-semibold text-center mb-2">Sélectionnez votre région</h3>
-              <p className="text-gray-600 text-center">Choisissez votre région au Cameroun pour trouver des experts près de chez vous.</p>
+              <h3 className="text-xl font-semibold text-center mb-4 text-white">Sélectionnez votre région</h3>
+              <p className="text-white/70 text-center">Choisissez votre région au Cameroun pour trouver des experts près de chez vous.</p>
             </motion.div>
             
             <motion.div 
-              className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
-              whileHover={{ y: -5, boxShadow: "0 10px 40px rgba(0,0,0,0.1)" }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
+              className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:border-[#1EAEDB]/30 transition-all duration-500"
+              variants={itemVariants}
+              whileHover={{ scale: 1.03, boxShadow: "0 20px 50px rgba(30, 174, 219, 0.1)" }}
             >
-              <div className="w-16 h-16 bg-gradient-to-r from-efinance-green to-efinance-lightgreen text-white flex items-center justify-center rounded-full mb-4 mx-auto">
-                2
+              <div className="w-16 h-16 bg-gradient-to-br from-[#1EAEDB] to-[#33C3F0] text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-lg">
+                <User size={24} />
               </div>
-              <h3 className="text-xl font-semibold text-center mb-2">Choisissez une spécialisation</h3>
-              <p className="text-gray-600 text-center">Précisez le domaine d'expertise financière dont vous avez besoin.</p>
+              <h3 className="text-xl font-semibold text-center mb-4 text-white">Choisissez une spécialisation</h3>
+              <p className="text-white/70 text-center">Précisez le domaine d'expertise financière dont vous avez besoin.</p>
             </motion.div>
             
             <motion.div 
-              className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
-              whileHover={{ y: -5, boxShadow: "0 10px 40px rgba(0,0,0,0.1)" }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              viewport={{ once: true }}
+              className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:border-[#9b87f5]/30 transition-all duration-500"
+              variants={itemVariants}
+              whileHover={{ scale: 1.03, boxShadow: "0 20px 50px rgba(155, 135, 245, 0.1)" }}
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-efinance-blue to-efinance-green text-white flex items-center justify-center rounded-full mb-4 mx-auto">
-                3
+              <div className="w-16 h-16 bg-gradient-to-br from-[#9b87f5] to-[#1EAEDB] text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-lg">
+                <Star size={24} />
               </div>
-              <h3 className="text-xl font-semibold text-center mb-2">Contactez l'expert</h3>
-              <p className="text-gray-600 text-center">Consultez les profils, les évaluations et contactez directement l'expert de votre choix.</p>
+              <h3 className="text-xl font-semibold text-center mb-4 text-white">Contactez l'expert</h3>
+              <p className="text-white/70 text-center">Consultez les profils, les évaluations et contactez directement l'expert de votre choix.</p>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Experts Showcase */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Nos Experts Financiers</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Des professionnels qualifiés dans divers domaines de la finance, prêts à vous servir.</p>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <motion.div 
-              className="bg-white rounded-xl overflow-hidden shadow-md"
-              whileHover={{ y: -5 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <div className="h-48 bg-gray-200 relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-efinance-blue to-efinance-green opacity-70"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <p className="text-sm font-medium">Comptabilité & Fiscalité</p>
-                  <p className="text-xs">Centre</p>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-lg">Jean Kamga</h3>
-                <div className="flex items-center mt-1 mb-2">
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={i < 4 ? "currentColor" : "none"} stroke="currentColor" 
-                        className={`w-4 h-4 ${i < 4 ? "text-yellow-500" : "text-gray-300"}`}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="text-sm text-gray-600 ml-1">10 ans d'expérience</span>
-                </div>
-                <Link to="/search">
-                  <Button variant="outline" className="w-full mt-2">
-                    Voir profil
+      {/* CTA Section with animation */}
+      <section className="py-20 relative bg-gradient-to-br from-[#1A1F2C] to-[#0F1729] overflow-hidden">
+        {/* Animated geometric shapes */}
+        <motion.div 
+          className="absolute w-64 h-64 rounded-full bg-[#9b87f5]/10 blur-3xl"
+          animate={{ 
+            x: ["0%", "10%", "0%"],
+            y: ["0%", "-30%", "0%"]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          style={{ top: '10%', left: '15%' }}
+        />
+        <motion.div 
+          className="absolute w-96 h-96 rounded-full bg-[#1EAEDB]/10 blur-3xl"
+          animate={{ 
+            x: ["0%", "-20%", "0%"],
+            y: ["0%", "20%", "0%"]
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          style={{ bottom: '10%', right: '15%' }}
+        />
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div 
+            className="max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="bg-white/5 backdrop-blur-md p-10 rounded-3xl border border-white/10 text-center">
+              <motion.h2 
+                className="text-3xl font-bold mb-6 text-white"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+              >
+                Vous êtes un expert financier?
+              </motion.h2>
+              <motion.p 
+                className="text-lg text-white/70 mb-8"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+              >
+                Rejoignez notre réseau et développez votre clientèle partout au Cameroun.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.6, duration: 0.8 }}
+              >
+                <Link to="/admin">
+                  <Button className="bg-gradient-to-r from-[#9b87f5] to-[#1EAEDB] hover:opacity-90 text-white text-lg px-8 py-6 h-auto shadow-xl shadow-[#9b87f5]/20 hover:shadow-[#9b87f5]/30 transition-all duration-300">
+                    S'inscrire comme expert
+                    <ChevronRight className="ml-2" />
                   </Button>
                 </Link>
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              className="bg-white rounded-xl overflow-hidden shadow-md"
-              whileHover={{ y: -5 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="h-48 bg-gray-200 relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-efinance-blue to-efinance-green opacity-70"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <p className="text-sm font-medium">Finance d'entreprise</p>
-                  <p className="text-xs">Littoral</p>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-lg">Marie Ekotto</h3>
-                <div className="flex items-center mt-1 mb-2">
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={i < 5 ? "currentColor" : "none"} stroke="currentColor" 
-                        className={`w-4 h-4 ${i < 5 ? "text-yellow-500" : "text-gray-300"}`}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="text-sm text-gray-600 ml-1">8 ans d'expérience</span>
-                </div>
-                <Link to="/search">
-                  <Button variant="outline" className="w-full mt-2">
-                    Voir profil
-                  </Button>
-                </Link>
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              className="bg-white rounded-xl overflow-hidden shadow-md"
-              whileHover={{ y: -5 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              <div className="h-48 bg-gray-200 relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-efinance-blue to-efinance-green opacity-70"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <p className="text-sm font-medium">Investissement</p>
-                  <p className="text-xs">Ouest</p>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-lg">Thomas Ondoa</h3>
-                <div className="flex items-center mt-1 mb-2">
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={i < 4 ? "currentColor" : "none"} stroke="currentColor" 
-                        className={`w-4 h-4 ${i < 4 ? "text-yellow-500" : "text-gray-300"}`}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="text-sm text-gray-600 ml-1">15 ans d'expérience</span>
-                </div>
-                <Link to="/search">
-                  <Button variant="outline" className="w-full mt-2">
-                    Voir profil
-                  </Button>
-                </Link>
-              </div>
-            </motion.div>
-          </div>
-          
-          <div className="text-center mt-10">
-            <Link to="/search">
-              <Button className="bg-gradient-to-r from-efinance-blue to-efinance-green hover:opacity-90 text-white">
-                Voir tous les experts <ArrowRight size={16} className="ml-2" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-efinance-blue to-efinance-green text-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-4">Vous êtes un expert financier?</h2>
-            <p className="text-lg mb-8">Rejoignez notre réseau et développez votre clientèle partout au Cameroun.</p>
-            <Link to="/admin">
-              <Button className="bg-white text-efinance-blue hover:bg-gray-100">
-                S'inscrire comme expert
-              </Button>
-            </Link>
-          </div>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>
