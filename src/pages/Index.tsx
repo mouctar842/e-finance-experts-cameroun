@@ -60,14 +60,13 @@ const Index = () => {
     </div>
   );
 
-  // Hexagon grid background
+  // Background components
   const HexGrid = () => (
     <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4NCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDg0IDQ4Ij48cGF0aCBkPSJNMCAwaDg0djQ4SDBWMHptNDIgNDhhMjQgMjQgMCAxIDAgMC00OCAyNCAyNCAwIDAgMCAwIDQ4eiIgb3BhY2l0eT0iLjE1IiBmaWxsPSIjOWI4N2Y1IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] bg-center" />
     </div>
   );
 
-  // Digital data streams background
   const DataStreams = () => (
     <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
       {[...Array(10)].map((_, i) => (
@@ -107,7 +106,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Hero Section with enhanced animated gradient */}
+      {/* Hero Section with simplified content */}
       <div className="relative min-h-screen flex items-center bg-gradient-to-br from-[#0A192F] via-[#162A45] to-[#0B2135] overflow-hidden">
         <Particles />
         <HexGrid />
@@ -153,21 +152,13 @@ const Index = () => {
                 </motion.div>
 
                 <motion.h1 
-                  className="text-4xl md:text-6xl font-bold text-white mb-6 cyber-glow"
+                  className="text-3xl md:text-5xl font-bold text-white mb-4 cyber-glow"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
                 >
-                  Trouvez les Meilleurs Experts Financiers au Cameroun
+                  Experts Financiers au Cameroun
                 </motion.h1>
-                <motion.p 
-                  className="text-xl text-white/90 mb-8"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.3 }}
-                >
-                  e-Finance vous connecte avec les experts financiers qualifiés dans toutes les régions du Cameroun.
-                </motion.p>
                 
                 <motion.div
                   className="p-6 holographic rounded-xl neo-border shadow-lg"
@@ -175,7 +166,6 @@ const Index = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.5 }}
                 >
-                  <h2 className="text-white text-xl mb-4 font-medium">Rechercher un expert</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div className="relative">
                       <select 
@@ -224,20 +214,6 @@ const Index = () => {
                     </Button>
                   </Link>
                 </motion.div>
-
-                {/* Enhanced floating hint card */}
-                <motion.div
-                  className="mt-8 inline-flex items-center holographic px-4 py-2 rounded-full border border-white/10 data-stream"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.2, duration: 0.6 }}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <div className="mr-2 bg-[#9b87f5] rounded-full p-1">
-                    <Search size={14} className="text-white" />
-                  </div>
-                  <span className="text-sm text-white/80">Plus de {SPECIALIZATIONS.length} spécialisations disponibles</span>
-                </motion.div>
               </motion.div>
             </div>
           )}
@@ -247,26 +223,11 @@ const Index = () => {
         <div className="absolute inset-0 rotating-bg" style={{ opacity: 0.4 }} />
       </div>
 
-      {/* Enhanced Features Section with animated cards */}
-      <section className="py-20 bg-[#0F1729] relative overflow-hidden">
+      {/* Features Section - Simplified */}
+      <section className="py-12 bg-[#0F1729] relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9InBhdHQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDQ1KSI+CiAgICAgIDxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzlCODdGNSIgZmlsbC1vcGFjaXR5PSIwLjAyIi8+CiAgICA8L3BhdHRlcm4+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcGF0dCkiLz4KPC9zdmc+')]" style={{ opacity: 0.2 }} />
         
         <div className="container mx-auto px-4">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Comment fonctionne <span className="cyber-glow">e-Finance</span>
-            </h2>
-            <p className="text-lg text-white/70 max-w-3xl mx-auto">
-              Notre plateforme vous aide à trouver rapidement des experts financiers qualifiés au Cameroun, adaptés à vos besoins spécifiques.
-            </p>
-          </motion.div>
-          
           <motion.div 
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
             variants={containerVariants}
@@ -275,48 +236,45 @@ const Index = () => {
             viewport={{ once: true }}
           >
             <motion.div 
-              className="holographic p-8 rounded-2xl hover:border-[#9b87f5]/30 transition-all duration-500 floating"
+              className="holographic p-6 rounded-2xl hover:border-[#9b87f5]/30 transition-all duration-500 floating"
               variants={itemVariants}
               whileHover={{ scale: 1.03, boxShadow: "0 20px 50px rgba(155, 135, 245, 0.1)" }}
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-lg glow">
-                <Search size={24} />
+              <div className="w-12 h-12 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] text-white flex items-center justify-center rounded-full mb-4 mx-auto shadow-lg glow">
+                <Search size={20} />
               </div>
-              <h3 className="text-xl font-semibold text-center mb-4 text-white">Sélectionnez votre région</h3>
-              <p className="text-white/70 text-center">Choisissez votre région au Cameroun pour trouver des experts près de chez vous.</p>
+              <h3 className="text-lg font-semibold text-center mb-2 text-white">Région</h3>
             </motion.div>
             
             <motion.div 
-              className="holographic p-8 rounded-2xl hover:border-[#1EAEDB]/30 transition-all duration-500 floating"
+              className="holographic p-6 rounded-2xl hover:border-[#1EAEDB]/30 transition-all duration-500 floating"
               variants={itemVariants}
               whileHover={{ scale: 1.03, boxShadow: "0 20px 50px rgba(30, 174, 219, 0.1)" }}
               style={{ animationDelay: "0.2s" }}
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-[#1EAEDB] to-[#33C3F0] text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-lg glow">
-                <User size={24} />
+              <div className="w-12 h-12 bg-gradient-to-br from-[#1EAEDB] to-[#33C3F0] text-white flex items-center justify-center rounded-full mb-4 mx-auto shadow-lg glow">
+                <User size={20} />
               </div>
-              <h3 className="text-xl font-semibold text-center mb-4 text-white">Choisissez une spécialisation</h3>
-              <p className="text-white/70 text-center">Précisez le domaine d'expertise financière dont vous avez besoin.</p>
+              <h3 className="text-lg font-semibold text-center mb-2 text-white">Spécialisation</h3>
             </motion.div>
             
             <motion.div 
-              className="holographic p-8 rounded-2xl hover:border-[#9b87f5]/30 transition-all duration-500 floating"
+              className="holographic p-6 rounded-2xl hover:border-[#9b87f5]/30 transition-all duration-500 floating"
               variants={itemVariants}
               whileHover={{ scale: 1.03, boxShadow: "0 20px 50px rgba(155, 135, 245, 0.1)" }}
               style={{ animationDelay: "0.4s" }}
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-[#9b87f5] to-[#1EAEDB] text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-lg glow">
-                <Star size={24} />
+              <div className="w-12 h-12 bg-gradient-to-br from-[#9b87f5] to-[#1EAEDB] text-white flex items-center justify-center rounded-full mb-4 mx-auto shadow-lg glow">
+                <Star size={20} />
               </div>
-              <h3 className="text-xl font-semibold text-center mb-4 text-white">Contactez l'expert</h3>
-              <p className="text-white/70 text-center">Consultez les profils, les évaluations et contactez directement l'expert de votre choix.</p>
+              <h3 className="text-lg font-semibold text-center mb-2 text-white">Contact</h3>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Enhanced CTA Section with animation */}
-      <section className="py-20 relative bg-gradient-to-br from-[#1A1F2C] to-[#0F1729] overflow-hidden">
+      {/* CTA Section - Simplified */}
+      <section className="py-10 relative bg-gradient-to-br from-[#1A1F2C] to-[#0F1729] overflow-hidden">
         {/* Animated geometric shapes */}
         <motion.div 
           className="absolute w-64 h-64 rounded-full bg-[#9b87f5]/10 blur-3xl"
@@ -341,31 +299,13 @@ const Index = () => {
         
         <div className="container mx-auto px-4 relative z-10">
           <motion.div 
-            className="max-w-3xl mx-auto"
+            className="max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <div className="holographic p-10 rounded-3xl neo-border text-center">
-              <motion.h2 
-                className="text-3xl font-bold mb-6 text-white cyber-glow"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-              >
-                Vous êtes un expert financier?
-              </motion.h2>
-              <motion.p 
-                className="text-lg text-white/70 mb-8"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-              >
-                Rejoignez notre réseau et développez votre clientèle partout au Cameroun.
-              </motion.p>
+            <div className="holographic p-8 rounded-3xl neo-border text-center">
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -373,8 +313,8 @@ const Index = () => {
                 transition={{ delay: 0.6, duration: 0.8 }}
               >
                 <Link to="/admin">
-                  <Button className="bg-gradient-to-r from-[#9b87f5] to-[#1EAEDB] hover:opacity-90 text-white text-lg px-8 py-6 h-auto shadow-xl glow">
-                    S'inscrire comme expert
+                  <Button className="bg-gradient-to-r from-[#9b87f5] to-[#1EAEDB] hover:opacity-90 text-white text-lg px-8 py-3 h-auto shadow-xl glow">
+                    Inscription Expert
                     <ChevronRight className="ml-2" />
                   </Button>
                 </Link>
