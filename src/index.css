@@ -123,3 +123,235 @@
     transform: translateY(-10px);
   }
 }
+
+/* Nouvelles animations et effets */
+.cyber-glow {
+  text-shadow: 0 0 5px rgba(155, 135, 245, 0.7), 0 0 10px rgba(155, 135, 245, 0.5), 0 0 15px rgba(155, 135, 245, 0.3);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(155, 135, 245, 0.7), 0 0 10px rgba(155, 135, 245, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 8px rgba(155, 135, 245, 0.9), 0 0 15px rgba(155, 135, 245, 0.7), 0 0 20px rgba(155, 135, 245, 0.5);
+  }
+}
+
+.neo-border {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 0 3px rgba(155, 135, 245, 0.1), 0 0 10px rgba(30, 174, 219, 0.2);
+}
+
+.glow {
+  box-shadow: 0 0 10px rgba(155, 135, 245, 0.5), 0 0 15px rgba(30, 174, 219, 0.3);
+}
+
+.holographic {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(30, 174, 219, 0.05) 50%, rgba(155, 135, 245, 0.05) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.holographic:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 0%, rgba(155, 135, 245, 0.1) 50%, transparent 100%);
+  background-size: 200% 200%;
+  animation: holographic-shift 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes holographic-shift {
+  0% {
+    background-position: 0% 200%;
+  }
+  50% {
+    background-position: 200% 0%;
+  }
+  100% {
+    background-position: 0% 200%;
+  }
+}
+
+.floating {
+  animation: floating 5s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.data-stream {
+  position: relative;
+  overflow: hidden;
+}
+
+.data-stream:before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 2px;
+  height: 300%;
+  background: linear-gradient(to bottom, transparent, rgba(155, 135, 245, 0.7), transparent);
+  animation: data-flow 3s linear infinite;
+}
+
+.data-stream:after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 300%;
+  background: linear-gradient(to bottom, transparent, rgba(30, 174, 219, 0.7), transparent);
+  animation: data-flow 2.5s linear infinite;
+}
+
+@keyframes data-flow {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.rotating-bg {
+  background: conic-gradient(from 0deg, rgba(155, 135, 245, 0.1), rgba(30, 174, 219, 0.1), rgba(155, 135, 245, 0.1));
+  animation: rotate 60s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hover-neon {
+  transition: all 0.3s ease;
+}
+
+.hover-neon:hover {
+  box-shadow: 0 0 10px rgba(155, 135, 245, 0.7), 0 0 20px rgba(30, 174, 219, 0.5);
+}
+
+.futuristic-input {
+  background: rgba(15, 23, 41, 0.7);
+  border: 1px solid rgba(155, 135, 245, 0.3);
+  transition: all 0.3s ease;
+}
+
+.futuristic-input:focus {
+  border-color: rgba(155, 135, 245, 0.8);
+  box-shadow: 0 0 0 2px rgba(155, 135, 245, 0.2);
+}
+
+.file-upload-animation {
+  position: relative;
+  overflow: hidden;
+}
+
+.file-upload-animation:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(to right, #9b87f5, #1EAEDB);
+  transition: width 0.3s ease;
+}
+
+.file-upload-animation.uploading:after {
+  width: 100%;
+  animation: upload-progress 2s ease-in-out infinite;
+}
+
+@keyframes upload-progress {
+  0% {
+    left: 0;
+    width: 0;
+  }
+  50% {
+    left: 0;
+    width: 100%;
+  }
+  100% {
+    left: 100%;
+    width: 0;
+  }
+}
+
+.image-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.image-card::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(45deg, #9b87f5, #1EAEDB, #9b87f5);
+  background-size: 300% 300%;
+  animation: gradient-border 3s ease infinite;
+  z-index: -1;
+  border-radius: 0.8rem;
+}
+
+@keyframes gradient-border {
+  0%, 100% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+}
+
+.pulse-border {
+  position: relative;
+}
+
+.pulse-border::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: inherit;
+  border: 1px solid rgba(155, 135, 245, 0.4);
+  animation: pulse-border 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+  z-index: -1;
+}
+
+@keyframes pulse-border {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(1.02);
+  }
+}
